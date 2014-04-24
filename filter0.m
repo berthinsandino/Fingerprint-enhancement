@@ -26,7 +26,6 @@ sp_J = zeros(sz_I(1), sz_I(2));
 for row = sz_k + 1 : sz_n : sz_I(1) - sz_k
   for col = sz_k + 1 : sz_n : sz_I(2) - sz_k
     if (row + sz_n + sz_k - 1 <= sz_I(1) && col + sz_n + sz_k - 1 <= sz_I(2))
-      %printf('-> %d, %d .. %d, %d\n', x - k, x + sz_n + k, y - k, y + sz_n + k);
       [theta fr fq_J coor_DC valu_DC] = filter1(sp_I(row - sz_k : row + sz_n + sz_k - 1, col - sz_k : col + sz_n + sz_k - 1), sz_k);
 
       NP_b = filter2(fq_J, coor_DC, fr, w);
