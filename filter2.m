@@ -24,8 +24,6 @@ for row = 1 : sz_J
     if ((d0 <= d && d <= d1) || (rr == 0 && cc == 0))
       mask(row, col) = 1;
     else
-      %mag = fq_J(row, col);
-      %mag = sqrt(real(mag)**2 + imag(mag)**2);
       mag = abs(fq_J(row, col));
       %mag = real(fq_J(row, col));
       lst_h = [lst_h, mag];
@@ -36,5 +34,3 @@ end
 %Get the %5 of the brightness points that are not considered within the anel or the center
 T95 = prctile(lst_h(:), 95);
 NP_b = max(lst_h(find(lst_h < T95)));
-
-%hist(lst_h(:), NBINS=50);
