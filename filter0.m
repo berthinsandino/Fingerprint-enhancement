@@ -35,13 +35,8 @@ for row = sz_k + 1 : sz_n : sz_I(1) - sz_k
         NP_b = 0.1;
       end
       H_Mb = abs(fq_J .* (abs(fq_J) > NP_b));
-      %figure(2), hist(real(fq_J(:)));
-      %H_Mb = fq_J .* (real(fq_J) > NP_b);
-      %pause()
-      %figure(2), hist(real(H_Mb(:)));
 
       PRNR_b = abs(valu_DC) / NP_b;
-      %PRNR_b = real(valu_DC) / NP_b;
       Q_b = 1 - (PRNR_b ** -1);
 
       H_Bb = filter3(size(fq_J, 1), coor_DC, fr, BW);
@@ -50,12 +45,14 @@ for row = sz_k + 1 : sz_n : sz_I(1) - sz_k
       
       H_GMb = conv2((H_Mb .* H_Bb), G_theta, 'same');
       
+      %{
       if (Q_b >= 0.5 || PRNR_b >= 2)
         F_b = fq_J .* H_GMb;
       else
         F_b = fq_J;
         printf ('some');
       end
+      %}
       
       tmp = real(ifft2(fftshift(F_b)));
       
@@ -76,37 +73,8 @@ for row = sz_k + 1 : sz_n : sz_I(1) - sz_k
       end
             
       sp_J(row : row + sz_n - 1, col : col + sz_n - 1) = tmp;
-      
-      %{
-      count
-      imshow(tmp, [])      
-      pause()
-      imshow(sp_J, [])
-      pause()
-      %}
-      %sp_J(row : row + sz_n - 1, col : col + sz_n - 1) = tmp(sz_k + 1 : sz_k + sz_n, sz_k + 1 : sz_k + sz_n);
-      
-      %pause();
-      %{
-      printf('Q_b: %f, NP_b: %f PRNR: %f\n', Q_b, NP_b, PRNR_b);
-      figure(1), imshow(ifft2(fftshift(fq_J)), []);
-      figure(2), imshow(ifft2(fftshift(F_b)), []);
-      pause();
-      %}
     end
   end
 end
 
-%{
-for row = 1 : size(sp_J, 1)
-  for col = 1 : size(sp_J, 2)
-    if (sp_J(row, col) > 255)
-      sp_J(row, col) = 255;
-    elseif (sp_J(row, col) < 0)
-      sp_J(row, col) = 0;
-    end
-  end
-end
-%}
 figure(1), imshow(sp_J);
-%figure(1), imshow(uint8(sp_J), [0 255]);
